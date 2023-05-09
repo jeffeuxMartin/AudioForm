@@ -60,29 +60,29 @@ const App = () => {
       // }
 
       const data = {
-        ["entry.1618220371"]: resp["性別val"],
-        ["entry.1618220371_sentinel"]: "",
-        ["entry.1867213177"]: resp["年齡val"],
-        ["entry.1156939644"]: resp["學院val"],
-        ["entry.1573090626"]: resp["戶籍val"],
-        ["entry.381733585"]: resp["出身val"],
+        "entry.1618220371": resp["性別val"],
+        "entry.1618220371_sentinel": "",
+        "entry.1867213177": resp["年齡val"],
+        "entry.1156939644": resp["學院val"],
+        "entry.1573090626": resp["戶籍val"],
+        "entry.381733585": resp["出身val"],
 
-        ["entry.1646463438"]: resp["國語熟悉val"],
-        ["entry.1646463438_sentinel"]: "",
-        ["entry.2044282045"]: resp["國語使用val"],
-        ["entry.2044282045_sentinel"]: "",
-        ["entry.254841469"]: resp["臺語熟悉val"],
-        ["entry.254841469_sentinel"]: "",
-        ["entry.1530477110"]: resp["臺語使用val"],
-        ["entry.1530477110_sentinel"]: "",
+        "entry.1646463438": resp["國語熟悉val"],
+        "entry.1646463438_sentinel": "",
+        "entry.2044282045": resp["國語使用val"],
+        "entry.2044282045_sentinel": "",
+        "entry.254841469": resp["臺語熟悉val"],
+        "entry.254841469_sentinel": "",
+        "entry.1530477110": resp["臺語使用val"],
+        "entry.1530477110_sentinel": "",
         
-        ["entry.862675887"]: resp["dd4fd5"],
-        ["entry.1283287702"]: resp["02654e"],
-        ["entry.1138571059"]: resp["9107b4"],
-        ["entry.299438313"]: resp["23a45e"],
-        ["entry.1240910167"]: resp["f48987"],
+        "entry.862675887": resp["dd4fd5"],
+        "entry.1283287702": resp["02654e"],
+        "entry.1138571059": resp["9107b4"],
+        "entry.299438313": resp["23a45e"],
+        "entry.1240910167": resp["f48987"],
         
-        ["entry.763022595"]: resp["如果要參加抽獎，請填寫 email!"],
+        "entry.763022595": resp["如果要參加抽獎，請填寫 email!"],
       };
 
       const formData = new FormData();
