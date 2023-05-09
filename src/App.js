@@ -1,136 +1,140 @@
-import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { TextField, Button, Container, Box, FormControlLabel, RadioGroup, Radio } from '@mui/material';
-import ReactPlayer from 'react-player';
+import React from "react";
+import { useFormik } from "formik";
+import {
+  Button,
 
-function App() {
-  const audioSources = [
-    'https://homepage.ntu.edu.tw/~r09942097/wavs_taibads/02654e.wav',
-    'https://homepage.ntu.edu.tw/~r09942097/wavs_taibads/23a45e.wav',
-    'https://homepage.ntu.edu.tw/~r09942097/wavs_taibads/9107b4.wav',
-    'https://homepage.ntu.edu.tw/~r09942097/wavs_taibads/dd4fd5.wav',
-    'https://homepage.ntu.edu.tw/~r09942097/wavs_taibads/f48987.wav',
+} from "@mui/material";
+import DropDowns from "./containers/DropDowns";
+import {
+  textQuestions,
+  audioTextQuestions,
+  dropdownQuestions,
+  radioQuestions,
+  sliderQuestions,
+} from "./containers/Questions";
+import SingleChoice from "./containers/SingleChoice";
+import AudioText from "./containers/AudioText";
+import NormalText from "./containers/NormalText";
+import SliderInput from "./containers/SliderInput";
+
+const App = () => {
+  const valueLabels = [
+    ...radioQuestions.map((q) => q.valuelabel),
+    ...dropdownQuestions.map((q) => q.valuelabel),
+    ...textQuestions,
+    ...audioTextQuestions,
+    ...sliderQuestions.map((q) => q.valuelabel),
+    ...radioQuestions
+      .filter((i) => i.otherOptionLabel)
+      .map((i) => `${i.valuelabel}-other`),
   ];
 
-  const audioQuestions = [
-    '請問這是什麼聲音？',
-    '請問這是什麼聲音？',
-    '請問這是什麼聲音？',
-    '請問這是什麼聲音？',
-    '請問這是什麼聲音？'
-  ];
+  let initialValues = valueLabels.reduce((acc, key) => {
+    acc[key] = "";
+    return acc;
+  }, {});
 
-  const choiceQuestions = [
-    {
-      question: '你喜歡哪種顏色？',
-      options: ['紅色', '藍色', '綠色', '黃色']
+  sliderQuestions.forEach((q) => {
+    initialValues[q.valuelabel] = q.defaultval;
+  });
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    onSubmit: async (values) => {
+      await new Promise((r) => setTimeout(r, 10));
+      console.log(JSON.stringify(values, null, 2));
     },
-    {
-      question: '你喜歡哪種食物？',
-      options: ['中式', '西式', '日式', '韓式']
-    }
-  ];
+    onReset: () => {
+      formik.setValues(initialValues);
+    },
+    validate: (values) => {
+      let errors = {};
+      // console.log(values);
 
-  const dropdownQuestions = [
-    '你喜歡哪種水果？',
-    '你喜歡哪種運動？',
-    '你喜歡哪種動物？'
-  ];
-
-  const dropdownOptions = [
-    ['蘋果', '香蕉', '橘子', '芒果'],
-    ['籃球', '棒球', '足球', '羽球'],
-    ['貓', '狗', '兔子', '鳥']
-  ];
+      if (!values["學院val"]) { errors["學院val"] = "Required"; }
+      if (!values["年齡val"]) { errors["年齡val"] = "Required"; }
+      if (!values["性別val"]) { errors["性別val"] = "Required"; }
+      if (values['性別val'] === '其他' && !values['性別val-other']) 
+        errors['性別val-other'] = 'Required';
+      if (!values["出身val"]) { errors["出身val"] = "Required"; }
+      if (!values["戶籍val"]) { errors["戶籍val"] = "Required"; }
+      
+      if (errors) {
+        alert("請填寫所有必填欄位");
+      }
+      return errors;
+    },
+  });
 
   return (
-    <Container maxWidth="sm">
-      <h1>問題</h1>
-      <Formik
-        initialValues={{
-          choices: ['', ''],
-          answers: ['', '', '', '', ''],
-          selectedOption: ['', '', '']
-        }}
-        onSubmit={(values) => {
-          console.log(values);
-        }}
-      >
-        {({ values, handleChange }) => (
-          <Form>
-            {choiceQuestions.map((q, index) => (
-              <Box key={index} sx={{ marginBottom: '1rem' }}>
-                <h3>{q.question}</h3>
-                <RadioGroup
-                  aria-label={q.question}
-                  name={`choices[${index}]`}
-                  value={values.choices[index]}
-                  onChange={handleChange}
-                >
-                  {q.options.map((option, i) => (
-                    <FormControlLabel
-                      key={option}
-                      value={option}
-                      control={<Radio />}
-                      label={option}
-                    />
-                  ))}
-                </RadioGroup>
-              </Box>))}
-            {dropdownQuestions.map((q, index) => (
-              <Box key={index} sx={{ marginBottom: '1rem' }}>
-                <h3>{q}</h3>
-                <FormControl fullWidth sx={{ marginBottom: '1rem' }}>
-                  <InputLabel id={`dropdown-question-${index}-label`}>{q}</InputLabel>
-                  <Select
-                    labelId={`dropdown-question-${index}-label`}
-                    id={`dropdown-question-${index}`}
-                    name={`selectedOption[${index}]`}
-                    value={values.selectedOption[index]}
-                    onChange={handleChange}
-                  >
-                    {dropdownOptions[index].map((option, i) => (
-                      <MenuItem key={option} value={option}>
-                        {option}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Box>
-            ))}
-            {audioSources.map((source, index) => (
-              <Box key={source} sx={{ marginBottom: '1rem' }}>
-                <Box sx={{ position: 'relative', paddingBottom: '75px' }}>
-                  <ReactPlayer
-                    url={source}
-                    height="75px"
-width="50%"
-controls
-                    style={{ position: 'absolute', top: 0, left: 0 }}
-                  />
-                </Box>
-                <Field name={`answers[${index}]`}>
-                  {({ field }) => (
-                    <TextField
-                      {...field}
-                      label={audioQuestions[index]}
-                      variant="outlined"
-                      fullWidth
-                      margin="normal"
-                    />
-                  )}
-                </Field>
-              </Box>
-            ))}
-            <Button variant="contained" color="primary" type="submit">
-              送出
-            </Button>
-          </Form>
-        )}
-      </Formik>
-    </Container>
+    <div>
+      <h1>髒話問卷</h1>
+      <form onSubmit={formik.handleSubmit}>
+        {radioQuestions.map((q, index) => (
+          <SingleChoice
+            key={q.question}
+            question={q.question}
+            options={q.options}
+            labelId={`${q.valuelabel}-label`}
+            name={q.valuelabel}
+            value={formik.values[q.valuelabel]}
+            otherValue={formik.values[`${q.valuelabel}-other`]}
+            otherName={`${q.valuelabel}-other`}
+            hasOtherOption={q.otherOptionLabel}
+            handleChange={formik.handleChange}
+          />
+        ))}
+
+        {dropdownQuestions.map((q, index) => (
+          <DropDowns
+            key={q.question}
+            question={q.question}
+            labelId={`${q.valuelabel}-label`}
+            selectId={q.valuelabel}
+            name={q.valuelabel}
+            value={formik.values[q.valuelabel]}
+            handleChange={formik.handleChange}
+            options={q.options}
+          />
+        ))}
+
+        {sliderQuestions.map((q, index) => (
+          <SliderInput
+            key={q.question}
+            name={q.valuelabel}
+            label={q.question}
+            id={q.valuelabel}
+            min={q.min}
+            max={q.max}
+            value={formik.values[q.valuelabel]}
+            handleChange={formik.handleChange}
+          />
+        ))}
+
+        {audioTextQuestions.map((q, index) => (
+          <AudioText
+            q={q.question}
+            key={`${q.question}`}
+            source={q.src}
+            value={formik.values[q.question]}
+            handleChange={formik.handleChange}
+          />
+        ))}
+
+        {textQuestions.map((q, index) => (
+          <NormalText
+            q={q}
+            key={`${q}`}
+            value={formik.values[q]}
+            handleChange={formik.handleChange}
+          />
+        ))}
+        <Button color="primary" type="submit">
+          Submit
+        </Button>
+      </form>
+    </div>
   );
-}
+};
 
 export default App;
