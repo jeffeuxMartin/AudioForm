@@ -31,20 +31,27 @@ function App() {
       options: ['中式', '西式', '日式', '韓式']
     }
   ];
+
+  const dropdownQuestions = [
+    '你喜歡哪種水果？',
+    '你喜歡哪種運動？',
+    '你喜歡哪種動物？'
+  ];
+
   const dropdownOptions = [
-    '選項一',
-    '選項二',
-    '選項三'
+    ['蘋果', '香蕉', '橘子', '芒果'],
+    ['籃球', '棒球', '足球', '羽球'],
+    ['貓', '狗', '兔子', '鳥']
   ];
 
   return (
     <Container maxWidth="sm">
       <h1>問題</h1>
       <Formik
-       initialValues={{
+        initialValues={{
           choices: ['', ''],
           answers: ['', '', '', '', ''],
-          selectedOption: ''
+          selectedOption: ['', '', '']
         }}
         onSubmit={(values) => {
           console.log(values);
@@ -70,6 +77,26 @@ function App() {
                     />
                   ))}
                 </RadioGroup>
+              </Box>))}
+            {dropdownQuestions.map((q, index) => (
+              <Box key={index} sx={{ marginBottom: '1rem' }}>
+                <h3>{q}</h3>
+                <FormControl fullWidth sx={{ marginBottom: '1rem' }}>
+                  <InputLabel id={`dropdown-question-${index}-label`}>{q}</InputLabel>
+                  <Select
+                    labelId={`dropdown-question-${index}-label`}
+                    id={`dropdown-question-${index}`}
+                    name={`selectedOption[${index}]`}
+                    value={values.selectedOption[index]}
+                    onChange={handleChange}
+                  >
+                    {dropdownOptions[index].map((option, i) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Box>
             ))}
             {audioSources.map((source, index) => (
@@ -96,26 +123,11 @@ controls
                 </Field>
               </Box>
             ))}
-            <Box sx={{ marginBottom: '1rem' }}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">下拉式選單</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={values.selectedOption}
-              onChange={handleChange}
-              name="selectedOption"
-            >
-              {dropdownOptions.map((option) => (
-                <MenuItem key={option} value={option}>{option}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-            <Button type="submit" variant="contained" color="primary">
-            提交
-          </Button>
-        </Form>)}
+            <Button variant="contained" color="primary" type="submit">
+              送出
+            </Button>
+          </Form>
+        )}
       </Formik>
     </Container>
   );
