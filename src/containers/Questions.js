@@ -135,22 +135,27 @@ const textQuestions = ["如果要參加抽獎，請填寫 email!"];
 const audioTextQuestions = [
   {
     question: "請問您會怎麼寫？ (02654e)",
+    valuelabel: "02654e",
     src: "https://homepage.ntu.edu.tw/~r09942097/wavs_taibads/02654e.wav",
   },
   {
     question: "請問您會怎麼寫？ (23a45e)",
+    valuelabel: "23a45e",
     src: "https://homepage.ntu.edu.tw/~r09942097/wavs_taibads/23a45e.wav",
   },
   {
     question: "請問您會怎麼寫？ (9107b4)",
+    valuelabel: "9107b4",
     src: "https://homepage.ntu.edu.tw/~r09942097/wavs_taibads/9107b4.wav",
   },
   {
     question: "請問您會怎麼寫？ (dd4fd5)",
+    valuelabel: "dd4fd5",
     src: "https://homepage.ntu.edu.tw/~r09942097/wavs_taibads/dd4fd5.wav",
   },
   {
     question: "請問您會怎麼寫？ (f48987)",
+    valuelabel: "f48987",
     src: "https://homepage.ntu.edu.tw/~r09942097/wavs_taibads/f48987.wav",
   },
 ];

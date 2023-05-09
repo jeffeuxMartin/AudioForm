@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 
-export default function AudioText({ q, value, source, handleChange }) {
+export default function AudioText({ q, value, name, source, handleChange }) {
   // const [value, setValue] = useState("");
   // const [otherValue, setOtherValue] = useState("");
 
@@ -34,7 +34,7 @@ export default function AudioText({ q, value, source, handleChange }) {
       <TextField
         key={q}
         id={q}
-        name={q}
+        name={name}
         label={q}
         value={value}
         onChange={handleChange}
